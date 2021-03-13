@@ -43,9 +43,9 @@ function getToday(city) {
             var dataLon = data.coord.lon
             //input lon, lat of input city to get UV Index
             getUV(dataLat, dataLon)
-            document.querySelector("#temp").textContent = "Tempreture: " + tempreture + String.fromCharCode()
-            document.querySelector("#humid").textContent = "Humidity: " + Humidity
-            document.querySelector("#wind").textContent = "Wind Speed: " + windSpeed
+            document.querySelector("#temp").innerHTML = "Tempreture: " + tempreture + ' &#8457;'
+            document.querySelector("#humid").innerHTML = "Humidity: " + Humidity + '%'
+            document.querySelector("#wind").innerHTML = "Wind Speed: " + windSpeed + ' MPH'
             // document.getElementById('description').innerHTML = description;
             console.log(tempreture, Humidity, windSpeed, dataLat, dataLon, )
 
@@ -63,7 +63,8 @@ function getUV(lat, lon) {
         .then(function (data) {
             var uvIndex = data.current.uvi;
             console.log(uvIndex)
-            document.querySelector("#uvIndex").textContent = "UV Index: " + uvIndex
+            document.querySelector("#uvIndex").innerHTML = "UV Index: "
+            document.querySelector("#uvIndex2").innerHTML = uvIndex
         });
 }
 

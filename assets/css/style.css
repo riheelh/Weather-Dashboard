@@ -71,7 +71,19 @@ body {
     font-weight: 700;
 }
 
-#temp {
-    content: "\2109";
+.uvEx {
+    display:flex
 }
+
+#uvIndex2 {
+    background-color: #d32d88;
+    width: 2.6rem;
+    height: 3.5vh ;
+    padding: 0.2rem;
+    margin-left:0.6rem;
+    color: white;
+    border-radius: 0.2rem;
+}
+
+
 
