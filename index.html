@@ -28,13 +28,21 @@
                     </form>
             </div>
         </div>
-        <div class="col-md-8 col-sm-6 weatherDiv ">
-            <div class="card">
+        <div class="col-md-8 col-sm-6 weatherDiv" id="weatherDiv">
+            <div>
+                <div class="today-forcast">
+                    <p id='cityDate'></p>
+                    <p id='temp'></p>
+                    <p id='humid'></p>
+                    <p id='wind'></p>
+                    <p id='uvIndex'></p>
+                </div>
+                <div class="five-day-forcast">5 Days Forcast</div>
 
             </div>
         </div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="./assets/js/script.js"></script>
 </body>
 

@@ -5,20 +5,27 @@ var cityFormEl = document.getElementById('cityForm');
 //API keys
 var myKeys = '36caf7375930147c2787ae5b0d32aba2'
 
-
+//get city input and load data
 var searchHandler = function (event) {
     event.preventDefault();
-  
+    
     var input = cityInputEl.value.trim();
     
     if (input) {
+        
         getToday(input);
+        document.getElementById('weatherDiv').style.display = "block";
+        document.querySelector("#cityDate").textContent = input.toUpperCase() + ' (' + date + ')'
         // cityInputEl.value = '';
     } else {
       alert('Please enter City name');
     }
 };
 
+//get date of today
+var today = new Date();
+var date = today.getMonth()+1 + '/' + today.getDate() + '/' + today.getFullYear();
+// console.log(date)
 
 //Get temp, humdity, wind speed for input city
 function getToday(city) {
@@ -36,6 +43,10 @@ function getToday(city) {
             var dataLon = data.coord.lon
             //input lon, lat of input city to get UV Index
             getUV(dataLat, dataLon)
+            document.querySelector("#temp").textContent = "Tempreture: " + tempreture + String.fromCharCode()
+            document.querySelector("#humid").textContent = "Humidity: " + Humidity
+            document.querySelector("#wind").textContent = "Wind Speed: " + windSpeed
+            // document.getElementById('description').innerHTML = description;
             console.log(tempreture, Humidity, windSpeed, dataLat, dataLon, )
 
         });
@@ -52,6 +63,7 @@ function getUV(lat, lon) {
         .then(function (data) {
             var uvIndex = data.current.uvi;
             console.log(uvIndex)
+            document.querySelector("#uvIndex").textContent = "UV Index: " + uvIndex
         });
 }
 
