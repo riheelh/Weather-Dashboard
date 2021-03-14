@@ -25,7 +25,7 @@ var searchHandler = function (event) {
 //get date of today
 var today = new Date();
 var date = today.getMonth()+1 + '/' + today.getDate() + '/' + today.getFullYear();
-// console.log(date)
+// console.log(today)
 
 //Get temp, humdity, wind speed for input city
 function getToday(city) {
@@ -41,13 +41,19 @@ function getToday(city) {
             var windSpeed = data.wind.speed;
             var dataLat = data.coord.lat
             var dataLon = data.coord.lon
+            const {icon} = data.weather[0]
             //input lon, lat of input city to get UV Index
             getUV(dataLat, dataLon)
             document.querySelector("#temp").innerHTML = "Tempreture: " + tempreture + ' &#8457;'
             document.querySelector("#humid").innerHTML = "Humidity: " + Humidity + '%'
             document.querySelector("#wind").innerHTML = "Wind Speed: " + windSpeed + ' MPH'
+            var locationIcon = document.querySelector('.weather-icon')
+            
+            // console.log(iconId)
+            locationIcon.innerHTML = `<img src="./icons/${icon}.png">`
+            
             // document.getElementById('description').innerHTML = description;
-            console.log(tempreture, Humidity, windSpeed, dataLat, dataLon, )
+            // console.log(tempreture, Humidity, windSpeed, dataLat, dataLon, )
 
         });
 }
@@ -62,12 +68,46 @@ function getUV(lat, lon) {
         })
         .then(function (data) {
             var uvIndex = data.current.uvi;
-            console.log(uvIndex)
+            // const {icon} = data.weather[0];
+            // console.log(uvIndex)
             document.querySelector("#uvIndex").innerHTML = "UV Index: "
             document.querySelector("#uvIndex2").innerHTML = uvIndex
+
         });
 }
 
+function getFiveDays(cityInput) {
 
+    fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput + '&units=imperial&appid=' + myKeys)
+    
+    .then(function (response) {
+        return response.json();
+    })
+    .then(function (data) {
+        for (var i = 0; i < data.list.length; i++) {
+            var fiveTemp = data.list[i].main.temp_max;
+            var fiveHumid =  data.list[i].main.humidity;
+            var fiveIcon = data.list[i].weather[0].icon;
+            var fiveDT = data.list[i].dt;
+            var erd = new Date(fiveDT * 1000);
+            var DSAA = erd.getMonth()+1 + '/' + erd.getDate() + '/' + erd.getFullYear();
+            console.log(DSAA)
+
+        }
+        
+        
+    })
+
+
+
+}
+
+getFiveDays('boston')
 cityFormEl.addEventListener('submit', searchHandler);
-// languageButtonsEl.addEventListener('click', buttonClickHandler);
+
+
+// var unix_timestamp = 1615960800
+
+// var erd = new Date(unix_timestamp * 1000);
+// var DSAA = erd.getMonth()+1 + '/' + erd.getDate() + '/' + erd.getFullYear();
+// console.log(DSAA);

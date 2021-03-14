@@ -20,7 +20,7 @@
     </div>
     <div class="row">
         <div class="col-md-3 col-sm-2 leftDiv">
-            <div class="card">
+            <div class="card"> 
                     <h6 class="text-uppercase">Search by a City :</h6>
                     <form class="form-inline my-2 my-lg-0" id="cityForm">
                         <input class="form-control mr-sm-2" type="search" id="cityInput" placeholder="Enter City Name" aria-label="Search">
@@ -31,7 +31,12 @@
         <div class="col-md-8 col-sm-6 weatherDiv" id="weatherDiv">
             <div>
                 <div class="today-forcast">
-                    <p id='cityDate'></p>
+                    <div class="aligned">
+                        <div id='cityDate'></div>
+                        <div class="weather-icon" id="weather-icon">
+                            <img id="icon-pic" src="./icons/unknown.png" alt="">
+                        </div>
+                    </div>
                     <p id='temp'></p> 
                     <p id='humid'></p>
                     <p id='wind'></p>
