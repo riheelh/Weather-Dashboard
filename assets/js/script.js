@@ -93,9 +93,9 @@ function getFiveDays(cityInput) {
     })
     .then(function (data) {
         for (var i = 7; i < data.list.length; i+=7) {
-            var fiveTemp = data.list[i].main.temp_max;
-            var fiveHumid =  data.list[i].main.humidity;
-            var fiveIcon = data.list[i].weather[0].icon;
+            // var fiveTemp = data.list[i].main.temp_max;
+            // var fiveHumid =  data.list[i].main.humidity;
+            // const {icon} = data.list[i].weather[0];
             var fiveDT = data.list[i].dt;
             var fdate = new Date(fiveDT * 1000);
             var forcastDates = fdate.getMonth()+1 + '/' + fdate.getDate() + '/' + fdate.getFullYear();
@@ -106,11 +106,14 @@ function getFiveDays(cityInput) {
             var pTemp = document.createElement('p')
             var pHumid = document.createElement('p')
             var imgW = document.createElement('img')
+            imgW.setAttribute('src', `./icons/${data.list[i].weather[0].icon}.png`)
             pDate.textContent = forcastDates
             pTemp.innerHTML = 'Temp: ' + data.list[i].main.temp_max + ' &#8457;'
             pHumid.innerHTML = 'Humdity: ' + data.list[i].main.humidity + '%'
 
-            EL.append(pDate, pTemp, pHumid)
+
+           
+            EL.append(pDate, imgW, pTemp, pHumid);
 
         }
         
