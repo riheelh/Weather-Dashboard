@@ -2,6 +2,11 @@
 var searchBtn = document.getElementById('searchButton');
 var cityInputEl = document.getElementById('cityInput');
 var cityFormEl = document.getElementById('cityForm');
+// var forCard = $('<five-day-forcast>').addClass('row')
+
+
+// console.log(forCard1)
+// console.log(forCard)
 //API keys
 var myKeys = '36caf7375930147c2787ae5b0d32aba2'
 
@@ -14,6 +19,7 @@ var searchHandler = function (event) {
     if (input) {
         
         getToday(input);
+        getFiveDays(input);
         document.getElementById('weatherDiv').style.display = "block";
         document.querySelector("#cityDate").textContent = input.toUpperCase() + ' (' + date + ')'
         // cityInputEl.value = '';
@@ -76,6 +82,8 @@ function getUV(lat, lon) {
         });
 }
 
+
+// var forCard = document.getElementById('five-day-forcast')
 function getFiveDays(cityInput) {
 
     fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput + '&units=imperial&appid=' + myKeys)
@@ -84,30 +92,33 @@ function getFiveDays(cityInput) {
         return response.json();
     })
     .then(function (data) {
-        for (var i = 0; i < data.list.length; i++) {
+        for (var i = 7; i < data.list.length; i+=7) {
             var fiveTemp = data.list[i].main.temp_max;
             var fiveHumid =  data.list[i].main.humidity;
             var fiveIcon = data.list[i].weather[0].icon;
             var fiveDT = data.list[i].dt;
-            var erd = new Date(fiveDT * 1000);
-            var DSAA = erd.getMonth()+1 + '/' + erd.getDate() + '/' + erd.getFullYear();
-            console.log(DSAA)
+            var fdate = new Date(fiveDT * 1000);
+            var forcastDates = fdate.getMonth()+1 + '/' + fdate.getDate() + '/' + fdate.getFullYear();
+            var forCard = document.getElementById('fiveDayCards')
+            var EL = document.createElement('div')
+            var indCard = forCard.appendChild(EL).setAttribute('class', 'card-text')
+            var pDate = document.createElement('p')
+            var pTemp = document.createElement('p')
+            var pHumid = document.createElement('p')
+            var imgW = document.createElement('img')
+            pDate.textContent = forcastDates
+            pTemp.innerHTML = 'Temp: ' + data.list[i].main.temp_max + ' &#8457;'
+            pHumid.innerHTML = 'Humdity: ' + data.list[i].main.humidity + '%'
+
+            EL.append(pDate, pTemp, pHumid)
 
         }
         
-        
     })
-
-
 
 }
 
-getFiveDays('boston')
+// getFiveDays('boston')
 cityFormEl.addEventListener('submit', searchHandler);
 
 
-// var unix_timestamp = 1615960800
-
-// var erd = new Date(unix_timestamp * 1000);
-// var DSAA = erd.getMonth()+1 + '/' + erd.getDate() + '/' + erd.getFullYear();
-// console.log(DSAA);
