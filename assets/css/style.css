@@ -56,15 +56,22 @@ body {
 .today-forcast {
     height: 35vh;
     background-color: white;
-    padding: 1rem 1rem
+    padding: 1rem 1rem;
+    padding-left: 5rem;
 }
 
 .five-day-forcast {
     height: 45vh;
     background-color: #ecf3f5;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     justify-content: center;
+    flex-direction: column;
+}
+
+.five-day-forcast h5 {
+    margin-left: 5rem;
+    font-weight: 600;
 }
 
 .fiveForcast {
@@ -98,7 +105,8 @@ body {
 
 .weather-icon img {
     width: 4rem;
-    height: 8vh ;
+    height: 8.6vh ;
+    margin-left: 1rem;
 }
 
 .aligned {
@@ -107,7 +115,7 @@ body {
 }
 
 .card-text {
-    background-color: #c7b79f;
+    background-color: #6e6546;
     color: white;
     font-size: 14px;
     padding: 1rem 1rem 1rem 1rem;
@@ -117,6 +125,7 @@ body {
     border: 1px solid #a19f9f;
     border-radius: 4px;
     font-weight: 500;
+    
 }
 
 .card-text img {

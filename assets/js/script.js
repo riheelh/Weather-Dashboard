@@ -23,6 +23,7 @@ var searchHandler = function (event) {
         document.getElementById('weatherDiv').style.display = "block";
         document.querySelector("#cityDate").textContent = input.toUpperCase() + ' (' + date + ')'
         // cityInputEl.value = '';
+        
     } else {
       alert('Please enter City name');
     }
@@ -31,7 +32,7 @@ var searchHandler = function (event) {
 //get date of today
 var today = new Date();
 var date = today.getMonth()+1 + '/' + today.getDate() + '/' + today.getFullYear();
-// console.log(today)
+
 
 //Get temp, humdity, wind speed for input city
 function getToday(city) {
@@ -82,10 +83,12 @@ function getUV(lat, lon) {
         });
 }
 
+var forCard = document.getElementById('fiveDayCards')
 
+// forCard.empty()
 // var forCard = document.getElementById('five-day-forcast')
 function getFiveDays(cityInput) {
-
+$(".fiveDayCards").empty()
     fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput + '&units=imperial&appid=' + myKeys)
     
     .then(function (response) {
@@ -96,10 +99,12 @@ function getFiveDays(cityInput) {
             // var fiveTemp = data.list[i].main.temp_max;
             // var fiveHumid =  data.list[i].main.humidity;
             // const {icon} = data.list[i].weather[0];
+
+            //convert the unix timestamp to date format mm/dd/yyyy
             var fiveDT = data.list[i].dt;
             var fdate = new Date(fiveDT * 1000);
             var forcastDates = fdate.getMonth()+1 + '/' + fdate.getDate() + '/' + fdate.getFullYear();
-            var forCard = document.getElementById('fiveDayCards')
+            
             var EL = document.createElement('div')
             var indCard = forCard.appendChild(EL).setAttribute('class', 'card-text')
             var pDate = document.createElement('p')
@@ -111,14 +116,15 @@ function getFiveDays(cityInput) {
             pTemp.innerHTML = 'Temp: ' + data.list[i].main.temp_max + ' &#8457;'
             pHumid.innerHTML = 'Humdity: ' + data.list[i].main.humidity + '%'
 
-
+            
            
             EL.append(pDate, imgW, pTemp, pHumid);
+            
 
         }
         
     })
-
+    
 }
 
 // getFiveDays('boston')
