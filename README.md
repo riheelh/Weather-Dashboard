@@ -8,4 +8,4 @@ A simple weather application shows Today's weather conditions (temperature, the 
 
 The following image shows the web application's appearance and functionality:
 
-![Weather Dashboard](./assets/screenShot.PING)
+![Weather Dashboard](./assets/screenShot.PNG)
