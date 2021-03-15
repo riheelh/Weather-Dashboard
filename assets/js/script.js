@@ -2,39 +2,37 @@
 var searchBtn = document.getElementById('searchButton');
 var cityInputEl = document.getElementById('cityInput');
 var cityFormEl = document.getElementById('cityForm');
-// var forCard = $('<five-day-forcast>').addClass('row')
+var searchDivEL = document.querySelector('.searchDiv');
+var forCard = document.getElementById('fiveDayCards');
 
-
-// console.log(forCard1)
-// console.log(forCard)
 //API keys
 var myKeys = '36caf7375930147c2787ae5b0d32aba2'
 
 //get city input and load data
 var searchHandler = function (event) {
     event.preventDefault();
-    
+    //Enter city name on search bar and trim white spaces
     var input = cityInputEl.value.trim();
-    
     if (input) {
-        
+        //call today function
         getToday(input);
+        //call 5 day forcast function
         getFiveDays(input);
+        //unhide weather section 
         document.getElementById('weatherDiv').style.display = "block";
-        document.querySelector("#cityDate").textContent = input.toUpperCase() + ' (' + date + ')'
-        // cityInputEl.value = '';
-        
+        //append date of today beside the city name
+        document.querySelector("#cityDate").textContent = input.toUpperCase() + ' (' + date + ')';
     } else {
-      alert('Please enter City name');
+        alert('Please enter City name');
     }
 };
 
 //get date of today
 var today = new Date();
-var date = today.getMonth()+1 + '/' + today.getDate() + '/' + today.getFullYear();
+//format the today's date to mm/dd/yyyy
+var date = today.getMonth() + 1 + '/' + today.getDate() + '/' + today.getFullYear();
 
-
-//Get temp, humdity, wind speed for input city
+//Get temp, humdity, wind speed for city input
 function getToday(city) {
 
     fetch('https://api.openweathermap.org/data/2.5/weather?q=' + city + '&units=imperial&appid=' + myKeys)
@@ -48,20 +46,23 @@ function getToday(city) {
             var windSpeed = data.wind.speed;
             var dataLat = data.coord.lat
             var dataLon = data.coord.lon
-            const {icon} = data.weather[0]
+            const {
+                icon
+            } = data.weather[0]
             //input lon, lat of input city to get UV Index
             getUV(dataLat, dataLon)
             document.querySelector("#temp").innerHTML = "Tempreture: " + tempreture + ' &#8457;'
             document.querySelector("#humid").innerHTML = "Humidity: " + Humidity + '%'
             document.querySelector("#wind").innerHTML = "Wind Speed: " + windSpeed + ' MPH'
             var locationIcon = document.querySelector('.weather-icon')
-            
-            // console.log(iconId)
             locationIcon.innerHTML = `<img src="./icons/${icon}.png">`
-            
-            // document.getElementById('description').innerHTML = description;
-            // console.log(tempreture, Humidity, windSpeed, dataLat, dataLon, )
 
+            // store the city input in local storage and append the stored vale as button in left Div
+            localStorage.setItem('city', city);
+            var tab = document.createElement('button')
+            tab.setAttribute('class', 'history')
+            tab.textContent = localStorage.getItem('city').toUpperCase()
+            searchDivEL.append(tab)
         });
 }
 
@@ -75,59 +76,44 @@ function getUV(lat, lon) {
         })
         .then(function (data) {
             var uvIndex = data.current.uvi;
-            // const {icon} = data.weather[0];
-            // console.log(uvIndex)
             document.querySelector("#uvIndex").innerHTML = "UV Index: "
             document.querySelector("#uvIndex2").innerHTML = uvIndex
-
         });
 }
 
-var forCard = document.getElementById('fiveDayCards')
-
-// forCard.empty()
-// var forCard = document.getElementById('five-day-forcast')
+//function to get the 5 days forcast from API and fetch as forcast cards.
 function getFiveDays(cityInput) {
-$(".fiveDayCards").empty()
+    $(".fiveDayCards").empty()
     fetch('https://api.openweathermap.org/data/2.5/forecast?q=' + cityInput + '&units=imperial&appid=' + myKeys)
-    
-    .then(function (response) {
-        return response.json();
-    })
-    .then(function (data) {
-        for (var i = 7; i < data.list.length; i+=7) {
-            // var fiveTemp = data.list[i].main.temp_max;
-            // var fiveHumid =  data.list[i].main.humidity;
-            // const {icon} = data.list[i].weather[0];
 
-            //convert the unix timestamp to date format mm/dd/yyyy
-            var fiveDT = data.list[i].dt;
-            var fdate = new Date(fiveDT * 1000);
-            var forcastDates = fdate.getMonth()+1 + '/' + fdate.getDate() + '/' + fdate.getFullYear();
-            
-            var EL = document.createElement('div')
-            var indCard = forCard.appendChild(EL).setAttribute('class', 'card-text')
-            var pDate = document.createElement('p')
-            var pTemp = document.createElement('p')
-            var pHumid = document.createElement('p')
-            var imgW = document.createElement('img')
-            imgW.setAttribute('src', `./icons/${data.list[i].weather[0].icon}.png`)
-            pDate.textContent = forcastDates
-            pTemp.innerHTML = 'Temp: ' + data.list[i].main.temp_max + ' &#8457;'
-            pHumid.innerHTML = 'Humdity: ' + data.list[i].main.humidity + '%'
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            for (var i = 7; i < data.list.length; i += 7) {
+               //convert the unix timestamp to date format mm/dd/yyyy
+                var fiveDT = data.list[i].dt;
+                var fdate = new Date(fiveDT * 1000);
+                var forcastDates = fdate.getMonth() + 1 + '/' + fdate.getDate() + '/' + fdate.getFullYear();
 
-            
-           
-            EL.append(pDate, imgW, pTemp, pHumid);
-            
+                var EL = document.createElement('div')
+                var indCard = forCard.appendChild(EL).setAttribute('class', 'card-text')
+                var pDate = document.createElement('p')
+                var pTemp = document.createElement('p')
+                var pHumid = document.createElement('p')
+                var imgW = document.createElement('img')
+                imgW.setAttribute('src', `./icons/${data.list[i].weather[0].icon}.png`)
+                pDate.textContent = forcastDates
+                pTemp.innerHTML = 'Temp: ' + data.list[i].main.temp_max + ' &#8457;'
+                pHumid.innerHTML = 'Humdity: ' + data.list[i].main.humidity + '%'
 
-        }
-        
-    })
-    
+                EL.append(pDate, imgW, pTemp, pHumid);
+
+            }
+
+        })
+
 }
 
-// getFiveDays('boston')
+//submit city input
 cityFormEl.addEventListener('submit', searchHandler);
-
-

@@ -46,6 +46,16 @@ body {
     border: transparent;
 }
 
+#cityForm {
+    margin-bottom: 30px;
+    height: 5rem;
+    /* background-color: rgb(233, 225, 225); */
+}
+
+#cityInput {
+    width: 12rem;
+}
+
 .weatherDiv {
     padding: 1rem 0.5rem;
     border-radius: 0.3rem;
@@ -74,14 +84,14 @@ body {
     font-weight: 600;
 }
 
-.fiveForcast {
+/* .fiveForcast {
     background-color: #74a5fc;
     color: white;
     height: 26vh;
     width: 10rem; 
     margin: 1.2rem 1.2rem;
     border-radius: 0.4rem;
-}
+} */
 
 
 #cityDate {
@@ -124,18 +134,26 @@ body {
     width: 10rem;
     border: 1px solid #a19f9f;
     border-radius: 4px;
-    font-weight: 500;
-    
+    font-weight: 500;  
 }
 
 .card-text img {
     width: 4rem;
-    height: 4rem;
-    
+    height: 4rem; 
 }
 
 .fiveDayCards {
     display: flex;
     justify-content: center;
+}
 
+.history {
+    padding: 0.5rem 1rem;
+    align-self: center;
+    text-decoration: none;
+    font-size: 14px;
+    background-color: #ecf3f5;
+    width:17rem;
+    border: 1px solid black;
+    margin: 0.4px 0.2px 0.4px 0.2px;
 }
