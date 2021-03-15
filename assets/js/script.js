@@ -51,23 +51,16 @@ function getToday(city) {
             return response.json();
         })
         .then(function (data) {
-            var tempreture = data.main.temp;
-            var Humidity = data.main.humidity;
-            var windSpeed = data.wind.speed;
-            var dataLat = data.coord.lat;
-            var dataLon = data.coord.lon;
-            const {
-                icon
-            } = data.weather[0]
             //append date of today beside the city name
             document.querySelector("#cityDate").textContent = city.toUpperCase() + ' (' + date + ')';
             //call the UV index function to load UV Index
-            getUV(dataLat, dataLon)
+            getUV(data.coord.lat, data.coord.lon)
             //append data to HTML on Today weather section
-            document.querySelector("#temp").innerHTML = "Tempreture: " + tempreture + ' &#8457;'
-            document.querySelector("#humid").innerHTML = "Humidity: " + Humidity + '%'
-            document.querySelector("#wind").innerHTML = "Wind Speed: " + windSpeed + ' MPH'
+            document.querySelector("#temp").innerHTML = "Tempreture: " + data.main.temp + ' &#8457;'
+            document.querySelector("#humid").innerHTML = "Humidity: " + data.main.humidity + '%'
+            document.querySelector("#wind").innerHTML = "Wind Speed: " + data.wind.speed + ' MPH'
             var locationIcon = document.querySelector('.weather-icon')
+            const {icon} = data.weather[0]
             locationIcon.innerHTML = `<img src="./icons/${icon}.png">`
         });
 }
