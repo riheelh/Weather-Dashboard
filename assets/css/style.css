@@ -37,8 +37,7 @@ body {
 
 .card {
     height: 80vh;
-    border-radius: 10px;
-    /* background-color: white; */
+    border-radius: 0.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -49,7 +48,6 @@ body {
 #cityForm {
     margin-bottom: 30px;
     height: 5rem;
-    /* background-color: rgb(233, 225, 225); */
 }
 
 #cityInput {
@@ -59,7 +57,6 @@ body {
 .weatherDiv {
     padding: 1rem 0.5rem;
     border-radius: 0.3rem;
-    /* margin: 1rem 1rem 1rem 1rem */
     display: none;
 }
 
@@ -68,6 +65,7 @@ body {
     background-color: white;
     padding: 1rem 1rem;
     padding-left: 5rem;
+    border-radius:  0.5rem 0.5rem 0 0;
 }
 
 .five-day-forcast {
@@ -77,22 +75,14 @@ body {
     /* align-items: center; */
     justify-content: center;
     flex-direction: column;
+    border-radius: 0 0 0.5rem 0.5rem;
 }
 
 .five-day-forcast h5 {
     margin-left: 5rem;
     font-weight: 600;
+    
 }
-
-/* .fiveForcast {
-    background-color: #74a5fc;
-    color: white;
-    height: 26vh;
-    width: 10rem; 
-    margin: 1.2rem 1.2rem;
-    border-radius: 0.4rem;
-} */
-
 
 #cityDate {
     font-size: 18px;
@@ -114,8 +104,8 @@ body {
 }
 
 .weather-icon img {
-    width: 4rem;
-    height: 8.6vh ;
+    width: 50px;
+    height: 50px;
     margin-left: 1rem;
 }
 
