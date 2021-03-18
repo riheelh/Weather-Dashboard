@@ -2,11 +2,20 @@
 var searchBtn = document.getElementById('searchButton');
 var cityInputEl = document.getElementById('cityInput');
 var cityFormEl = document.getElementById('cityForm');
-var searchDivEL = document.querySelector('.searchDiv');
 var forCard = document.getElementById('fiveDayCards');
-
+var searchDivEL = document.querySelector('.searchDiv');
+var historyBtnEl = document.querySelector('.historyBtn');
+var cities = [];
 //API keys
 var myKeys = '36caf7375930147c2787ae5b0d32aba2'
+
+//parse history items from local storage
+if (localStorage.getItem("city")) {
+    cities = JSON.parse(localStorage.getItem("city"))
+    historyItems(cities[0])
+    // getToday(cities[0])
+    // getFiveDays(cities[0])
+}
 
 //get city input and load data
 var searchHandler = function (event) {
@@ -20,13 +29,8 @@ var searchHandler = function (event) {
         getFiveDays(input);
         //unhide weather section 
         document.getElementById('weatherDiv').style.display = "block";
-        // store the city input in local storage and append the stored vale as button in left Div
-        localStorage.setItem('city', input);
-        var tab = document.createElement('button');
-        tab.setAttribute('class', 'history');
-        tab.textContent = localStorage.getItem('city').toUpperCase();
-        searchDivEL.append(tab);
-        tab.addEventListener('click', historyClick );
+        //call history
+        historyItems(input)
     } else {
         alert('Please enter City name');
     }
@@ -36,6 +40,39 @@ var searchHandler = function (event) {
 function historyClick(e) {
     getToday(e.target.textContent);
     getFiveDays(e.target.textContent);
+}
+
+// store the city input in local storage and append the stored vale as button in left Div
+function historyItems(city) {
+    // console.log(cities.indexOf(city))
+    //verify the city name exist in array
+    if (cities.indexOf(city.toLowerCase()) == -1) {
+        cities.unshift(city.toLowerCase())
+    }
+
+    //limit history items to 6 entry
+    while (cities.length > 6) {
+        cities.splice(cities.length - 1, 1)
+    }
+
+    // console.log(cities)
+    //empty elements
+    while (historyBtnEl.firstChild) {
+        historyBtnEl.removeChild(historyBtnEl.firstChild)
+    }
+
+    //create history item button under search bar for pervious entered cities
+    for (i = 0; i < cities.length; i++) {
+        var tab = document.createElement('button');
+        tab.setAttribute('class', 'history');
+        let currentCity = cities[i].charAt(0).toUpperCase() + cities[i].slice(1)
+        tab.textContent = currentCity
+        historyBtnEl.append(tab);
+        tab.addEventListener('click', historyClick);
+    }
+
+    // var getHistory =  localStorage.getItem('city')
+    localStorage.setItem('city', JSON.stringify(cities));
 }
 
 //get date of today and format the today's date to mm/dd/yyyy
@@ -60,7 +97,9 @@ function getToday(city) {
             document.querySelector("#humid").innerHTML = "Humidity: " + data.main.humidity + '%'
             document.querySelector("#wind").innerHTML = "Wind Speed: " + data.wind.speed + ' MPH'
             var locationIcon = document.querySelector('.weather-icon')
-            const {icon} = data.weather[0]
+            const {
+                icon
+            } = data.weather[0]
             locationIcon.innerHTML = `<img src="./icons/${icon}.png">`
         });
 }
@@ -90,7 +129,7 @@ function getFiveDays(cityInput) {
         })
         .then(function (data) {
             for (var i = 7; i < data.list.length; i += 7) {
-               //convert the unix timestamp to date format mm/dd/yyyy
+                //convert the unix timestamp to date format mm/dd/yyyy
                 var fiveDT = data.list[i].dt;
                 var fdate = new Date(fiveDT * 1000);
                 var forcastDates = fdate.getMonth() + 1 + '/' + fdate.getDate() + '/' + fdate.getFullYear();
