@@ -10,12 +10,12 @@ var cities = [];
 var myKeys = '36caf7375930147c2787ae5b0d32aba2'
 
 //parse history items from local storage
-if (localStorage.getItem("city")) {
-    cities = JSON.parse(localStorage.getItem("city"))
-    historyItems(cities[0])
-    // getToday(cities[0])
-    // getFiveDays(cities[0])
-}
+// if (localStorage.getItem("city")) {
+//     cities = JSON.parse(localStorage.getItem("city"))
+//     historyItems(cities[0])
+//     // getToday(cities[0])
+//     // getFiveDays(cities[0])
+// }
 
 //get city input and load data
 var searchHandler = function (event) {
